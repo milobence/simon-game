@@ -14,15 +14,19 @@ function nextSequence() {
     var randomColor = buttonColors[randomNumber];
     gamePattern.push(randomColor);
 
-    // The buttons flash and make sound
-    for (var i = 0; i < gamePattern.length; i++) {
-        currentButtonColor(i);
-    }
+    // Show the sequence
+    showSequence(gamePattern);
         
     // Add a new level
     level++;
     $("#level-title").text("Level " + level);
     
+}
+
+function showSequence (gamePattern) {
+    for (var i = 0; i < gamePattern.length; i++) {
+        currentButtonColor(i);
+    }
 }
 
 function currentButtonColor (i) {
@@ -82,6 +86,9 @@ function error() {
     userClickedPattern = [];
     wrongAnswer();
     $("h2").text("Megmaradt hibák: " + remainingErrors);
+    setTimeout(function () {
+        showSequence(gamePattern);
+    }, 1000);
 }
 
 function wrongAnswer() {
