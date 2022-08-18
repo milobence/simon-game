@@ -15,13 +15,22 @@ function nextSequence() {
     gamePattern.push(randomColor);
 
     // The buttons flash and make sound
-    $("." + randomColor).fadeOut(100).fadeIn(100);
-    playSound(randomColor);
-
+    for (var i = 0; i < gamePattern.length; i++) {
+        currentButtonColor(i);
+    }
+        
     // Add a new level
     level++;
     $("#level-title").text("Level " + level);
     
+}
+
+function currentButtonColor (i) {
+    setTimeout(function () {
+        $("#" + gamePattern[i]).fadeOut(100).fadeIn(100);
+        console.log(gamePattern[i]);
+        playSound(gamePattern[i]);
+    }, 500*i);
 }
 
 $(document).keypress(function ( ) { 
