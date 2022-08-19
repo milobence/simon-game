@@ -9,8 +9,24 @@
 </head>
 
 <body class="game">
-  <h1 id="level-title">Nyomj meg egy gombot a kezdéshez!</h1>
-  <div class="container">
+  <h1 id="level-title">Válassz egy nehézségi szintet a kezdéshez!</h1>
+  <h2 class="message"></h2>
+  <div class="diff-container">
+    <div class="row">
+      <button id="easy" class="btn-diff">Könnyű</button>
+    </div>
+    <div class="row">
+      <button id="medium" class="btn-diff">Közepes</button>
+    </div>
+    <div class="row">
+      <button id="hard" class="btn-diff">Nehéz</button>
+    </div>
+    <div class="row">
+      <button class="btn-rules" onclick="window.open('szabaly.html');">Játékszabályzat</button>
+    </div>
+  </div>
+
+  <div class="button-container">
     <div class="row">
 
       <div type="button" id="green" class="btn green">
@@ -34,8 +50,6 @@
     </div>
 
   </div>
-
-  <button class="btn-rules" onclick="window.open('szabaly.html');">Játékszabályzat</button>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="index.js"></script>

@@ -29,8 +29,16 @@ h2 {
   color: #FEF2BF;
 }
 
-.container {
-  display: block;
+.btn-diff {
+  margin: 2%;
+  display: inline-block;
+  height: 50px;
+  width: 40%;
+  border: 10px solid black;
+}
+
+.button-container {
+  display: none;
   width: 50%;
   margin: auto;
 

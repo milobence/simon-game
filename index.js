@@ -1,9 +1,46 @@
 var buttonColors = ["red", "blue", "green", "yellow"];
-var gamePattern = [];
-var userClickedPattern = [];
-var keyPress = false;
-var level = 0;
-var remainingErrors = 3;
+var gamePattern;
+var userClickedPattern ;
+var levels;
+var lives;
+var difficulty;
+var pressButton;
+
+// Easy difficulty
+
+$("#easy").on("click", function () {
+    newGame("easy", 1, 5);
+});
+
+// Medium difficulty
+
+$("#medium").on("click", function () {
+    newGame("medium", 1, 3);
+});
+
+// Hard difficulty
+
+$("#hard").on("click", function () {
+    newGame("hard", 1, 3);
+});
+
+// Start a game
+
+function newGame(diff, level, life) {
+    difficulty = diff;
+    levels = level;
+    lives = life;
+    gamePattern = [];
+    userClickedPattern = [];
+    $(".diff-container").hide();
+    $(".button-container").show();
+    $("#level-title").text("Level " + levels);
+    $("h2").text("Megmaradt életek: " + lives);
+    nextSequence();
+}
+
+
+// Put a new element into the pattern array and show the sequence to the player
 
 function nextSequence() {
     // Reset user clicked pattern
@@ -14,16 +51,20 @@ function nextSequence() {
     var randomColor = buttonColors[randomNumber];
     gamePattern.push(randomColor);
 
-    // Show the sequence
-    showSequence(gamePattern);
-        
-    // Add a new level
-    level++;
-    $("#level-title").text("Level " + level);
+    // Show the sequence (on easy and on medium to lvl10)
+    if (difficulty === "easy" || (difficulty === "medium" && levels <= 10)) {
+        showSequence(gamePattern);
+    } else {
+        $("#" + randomColor).fadeOut(100).fadeIn(100);
+    }
+    
     
 }
 
+// Show the full pattern
+
 function showSequence (gamePattern) {
+    notPressButton(gamePattern.length);
     for (var i = 0; i < gamePattern.length; i++) {
         currentButtonColor(i);
     }
@@ -32,21 +73,23 @@ function showSequence (gamePattern) {
 function currentButtonColor (i) {
     setTimeout(function () {
         $("#" + gamePattern[i]).fadeOut(100).fadeIn(100);
-        console.log(gamePattern[i]);
         playSound(gamePattern[i]);
     }, 500*i);
 }
 
-$(document).keypress(function ( ) { 
-    if (keyPress === false) {
-        keyPress = true;
-        $("#level-title").after("<h2> Megmaradt hibák:" + remainingErrors + "</h2>");
-        nextSequence();
-    }
-});
+function notPressButton(length) {
+    pressButton = false;
+    setTimeout(function () {
+        pressButton = true;
+    }, 500*length)
+}
+
+
+
+// Animation and sound for the clicked button
 
 $(".btn").on("click", function () {
-    if (keyPress === true) {
+    if (pressButton === true) {
         var userChosenColor = $(this).attr("id");
         playSound(userChosenColor);
         userClickedPattern.push(userChosenColor);
@@ -55,10 +98,16 @@ $(".btn").on("click", function () {
     }
 });
 
+
+// Play the correct sound for the colored buttons
+
 function playSound(name) {
     var audio = new Audio("sounds/" + name + ".mp3");
     audio.play();
 }
+
+
+// A press animation for the pressed button
 
 function animatePress(currentColor) {
     $("." + currentColor).addClass("pressed");
@@ -67,13 +116,18 @@ function animatePress(currentColor) {
     }, 100)
 }
 
+
+// Check, if your choose was good or wrong
+
 function checkAnswer(currentLevel) {
     if (userClickedPattern[currentLevel] === gamePattern[currentLevel]){
         if(currentLevel === gamePattern.length-1) {
+            getLife();
+            newLevel();
             setTimeout(nextSequence, 1000);
         }
     } else {
-        if (remainingErrors > 1) {
+        if (lives > 1) {
             error();
         } else {
             gameOver();
@@ -81,15 +135,44 @@ function checkAnswer(currentLevel) {
     }
 }
 
+
+// After returning the correct pattern, you level up
+
+function newLevel() {
+    levels++;
+    $("#level-title").text("Level " + levels);
+}
+
+
+// Extra life - the player gets an extra life (easy: after every 5 levels, medium: every 8 levels, hard: every 10 levels)
+
+function getLife() {
+    if ((difficulty === "easy") && (levels % 5 === 0)) {
+        lives++;
+        $(".message").text("Megmaradt életek: " + lives);
+    } else if ((difficulty === "medium" && levels % 8 === 0)) {
+        lives++;
+        $(".message").text("Megmaradt életek: " + lives);
+    } else if ((difficulty === "hard" && levels % 10 === 0)) {
+        lives++;
+        $(".message").text("Megmaradt életek: " + lives);
+    }
+}
+
+// If you choose a wrong button, you lose a life
+
 function error() {
-    remainingErrors--;
+    lives--;
     userClickedPattern = [];
     wrongAnswer();
-    $("h2").text("Megmaradt hibák: " + remainingErrors);
+    $("h2").text("Megmaradt életek: " + lives);
     setTimeout(function () {
         showSequence(gamePattern);
     }, 1000);
 }
+
+
+// The background turns red for 0.2 sec, if you choose a wrong answer
 
 function wrongAnswer() {
     playSound("wrong");
@@ -99,12 +182,13 @@ function wrongAnswer() {
     }, 200);
 }
 
+
+// If you lose all of your lives, your game is over
+
 function gameOver() {
     wrongAnswer();
-    $("#level-title").text("Játék vége! Nyomj meg egy gombot az újrakezdéshez! A pontszámod: " + (level-1));
-    $("h2").remove();
-    keyPress = false;
-    level = 0;
-    gamePattern = [];
-    remainingErrors = 3;
+    $("#level-title").text("Játék vége! Válassz egy nehézségi szintet az új játék indításához!");
+    $(".message").text("A pontszámod: " + (levels-1));
+    $(".button-container").hide();
+    $(".diff-container").show();
 }
