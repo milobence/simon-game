@@ -4,7 +4,7 @@ var userClickedPattern ;
 var levels;
 var lives;
 var difficulty;
-var pressButton;
+var pressButton = true;
 
 // Easy difficulty
 
@@ -77,6 +77,8 @@ function currentButtonColor (i) {
     }, 500*i);
 }
 
+// The player can't press any button when the sequence is shown
+
 function notPressButton(length) {
     pressButton = false;
     setTimeout(function () {
@@ -90,7 +92,7 @@ function notPressButton(length) {
 
 $(".btn").on("click", function () {
     if (pressButton === true) {
-        var userChosenColor = $(this).attr("id");
+        var userChosenColor = $(this).attr("id"); // we can get the pressed button's id attribute with this
         playSound(userChosenColor);
         userClickedPattern.push(userChosenColor);
         animatePress(userChosenColor);
