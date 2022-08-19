@@ -139,9 +139,9 @@
 
 @media screen and (max-width: 600px) {
   .btn {
-    height: 100px;
-    width: 100px;
-    margin: 10px;
+    height: 20%;
+    width: 20%;
+    margin: 2%;
   }
 
   #level-title, #rules {
