@@ -1,9 +1,13 @@
 /* index.html */
 
+/* body */
+
 .game {
   text-align: center;
   background-color: #011F3F;
 }
+
+/* h1 */
 
 #level-title, #szabalyok {
   font-family: 'Press Start 2P', cursive;
@@ -12,20 +16,78 @@
   color: #FEF2BF;
 }
 
-h2 {
+/* h2*/
+
+.message {
   font-family: 'Press Start 2P', cursive;
   font-size: 1.5rem;
   margin: 3%;
   color: #FEF2BF;
 }
 
-.btn-diff {
+/* difficulty container */
+
+.diff {
+  font-family: 'Press Start 2P', cursive;
   margin: 2%;
   display: inline-block;
-  height: 50px;
-  width: 40%;
   border: 10px solid black;
 }
+
+.btn-diff {
+  height: 50px;
+  width: 40%;
+}
+
+.btn-rules {
+  height: 150px;
+  width: 150px;
+  border-radius: 20%;
+}
+
+/* tooltips */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 300px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -150px;
+
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* button container */
 
 .button-container {
   display: none;
@@ -43,10 +105,14 @@ h2 {
   border-radius: 20%;
 }
 
+/* game over */
+
 .game-over {
   background-color: red;
   opacity: 0.8;
 }
+
+/* buttons */
 
 .red {
   background-color: red;
@@ -64,22 +130,16 @@ h2 {
   background-color: yellow;
 }
 
+/* for button pressing */
+
 .pressed {
   box-shadow: 0 0 20px white;
   background-color: grey;
 }
 
-.btn-rules {
-  margin: 25px;
-  display: inline-block;
-  height: 125px;
-  width: 125px;
-  border: 10px solid black;
-  border-radius: 20%;
-}
-
-
 /* szabaly.html */
+
+/* body */
 
 .szabaly {
   background-color: #011F3F;
@@ -89,10 +149,10 @@ h2 {
   font-size: 1.2rem;
 }
 
-li {
+.list-item {
   margin: 15px;
 }
 
-ul {
+.diff-list {
   list-style-type: none;
 }
