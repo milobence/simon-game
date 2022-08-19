@@ -144,8 +144,12 @@
     margin: 2vh;
   }
 
-  #level-title, #rules {
+  #level-title {
     font-size: 1.5rem;
+  }
+
+  #rules {
+    font-size: 1.4rem;
   }
 
   .message {
@@ -153,7 +157,7 @@
   }
 
   .rule {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
 
