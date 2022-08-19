@@ -1,18 +1,8 @@
+/* index.html */
+
 .game {
   text-align: center;
   background-color: #011F3F;
-}
-
-.szabaly {
-  background-color: #011F3F;
-  color: white;
-  font-family: 'Press Start 2P', cursive;
-  margin: 5%;
-  font-size: 1.2rem;
-}
-
-li {
-  margin: 15px;
 }
 
 #level-title, #szabalyok {
@@ -86,4 +76,23 @@ h2 {
   width: 125px;
   border: 10px solid black;
   border-radius: 20%;
+}
+
+
+/* szabaly.html */
+
+.szabaly {
+  background-color: #011F3F;
+  color: white;
+  font-family: 'Press Start 2P', cursive;
+  margin: 5%;
+  font-size: 1.2rem;
+}
+
+li {
+  margin: 15px;
+}
+
+ul {
+  list-style-type: none;
 }
