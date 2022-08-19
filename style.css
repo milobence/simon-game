@@ -9,11 +9,11 @@
 
 /* h1 */
 
-#level-title, #szabalyok {
+#level-title, #rules {
   font-family: 'Press Start 2P', cursive;
   font-size: 3rem;
   margin:  3%;
-  color: #FEF2BF;
+  color: #fff;
 }
 
 /* h2*/
@@ -22,7 +22,7 @@
   font-family: 'Press Start 2P', cursive;
   font-size: 1.5rem;
   margin: 3%;
-  color: #FEF2BF;
+  color: #fff;
 }
 
 /* difficulty container */
@@ -144,20 +144,26 @@
     margin: 10px;
   }
 
-  #level-title {
+  #level-title, #rules {
     font-size: 1.5rem;
   }
 
   .message {
     font-size: 1rem;
   }
+
+  .rule {
+    font-size: 1.4rem;
+  }
+
+
 }
 
 /* szabaly.html */
 
 /* body */
 
-.szabaly {
+.rule {
   background-color: #011F3F;
   color: white;
   font-family: 'Press Start 2P', cursive;
