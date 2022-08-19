@@ -137,6 +137,22 @@
   background-color: grey;
 }
 
+@media screen and (max-width: 600px) {
+  .btn {
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+  }
+
+  #level-title {
+    font-size: 1.5rem;
+  }
+
+  .message {
+    font-size: 1rem;
+  }
+}
+
 /* szabaly.html */
 
 /* body */
