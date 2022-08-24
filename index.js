@@ -216,7 +216,7 @@ function wrongAnswer() {
 
 function gameOver() {
     wrongAnswer();
-    $("#level-title").text("Játék vége! Válassz egy nehézségi szintet az új játék indításához!");
+    $("#level-title").text("Játék vége! Szeretnél újra játszani?");
     $(".message").text("A pontszámod: " + (levels-1));
     $(".button-container").hide();
     $(".diff-container").show();
