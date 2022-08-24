@@ -24,6 +24,16 @@ $("#hard").on("click", function () {
     newGame("hard", 1, 3);
 });
 
+// "Random" difficulty
+
+$("#random").on("click", function () {
+    newGame("random", 1, 3);
+});
+
+$("#survivor").on("click", function () {
+    newGame("survivor", 1, 1);
+});
+
 // Start a game
 
 function newGame(diff, level, life) {
@@ -52,7 +62,7 @@ function nextSequence() {
     gamePattern.push(randomColor);
 
     // Show the sequence (on easy and on medium to lvl10)
-    if (difficulty === "easy" || (difficulty === "medium" && levels <= 10)) {
+    if (difficulty === "easy" || difficulty === "survivor" || (difficulty === "medium" && levels <= 10)) {
         showSequence(gamePattern);
     } else {
         $("#" + randomColor).fadeOut(100).fadeIn(100);
@@ -60,6 +70,20 @@ function nextSequence() {
     
     
 }
+
+// Random sequence for random difficulty
+
+function randomSequence() {
+    gamePattern = [];
+    userClickedPattern = [];
+    for(var i=1; i<=levels; i++) {
+        var randomNumber = Math.floor(Math.random()*4);
+        var randomColor = buttonColors[randomNumber];
+        gamePattern.push(randomColor);
+    }
+    showSequence(gamePattern);
+}
+
 
 // Show the full pattern
 
@@ -85,7 +109,6 @@ function notPressButton(length) {
         pressButton = true;
     }, 500*length)
 }
-
 
 
 // Animation and sound for the clicked button
@@ -126,7 +149,11 @@ function checkAnswer(currentLevel) {
         if(currentLevel === gamePattern.length-1) {
             getLife();
             newLevel();
-            setTimeout(nextSequence, 1000);
+            if(difficulty !== "random") {
+                setTimeout(nextSequence, 1000);
+            } else {
+                setTimeout(randomSequence, 1000);
+            }
         }
     } else {
         if (lives > 1) {
@@ -149,7 +176,7 @@ function newLevel() {
 // Extra life - the player gets an extra life (easy: after every 5 levels, medium: every 8 levels, hard: every 10 levels)
 
 function getLife() {
-    if ((difficulty === "easy") && (levels % 5 === 0)) {
+    if ((difficulty === "easy" || difficulty === "random") && (levels % 5 === 0)) {
         lives++;
         $(".message").text("Megmaradt életek: " + lives);
     } else if ((difficulty === "medium" && levels % 8 === 0)) {

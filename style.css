@@ -7,6 +7,7 @@
   background-color: #011F3F;
 }
 
+
 /* h1 */
 
 #level-title, #rules {
@@ -15,6 +16,7 @@
   margin:  3%;
   color: #fff;
 }
+
 
 /* h2*/
 
@@ -25,7 +27,12 @@
   color: #fff;
 }
 
+
 /* difficulty container */
+
+.diff-container {
+  margin: auto;
+}
 
 .diff {
   font-family: 'Press Start 2P', cursive;
@@ -37,13 +44,16 @@
 .btn-diff {
   height: 50px;
   width: 40%;
+  margin: 1%;
 }
 
 .btn-rules {
   height: 150px;
   width: 150px;
   border-radius: 20%;
+  margin-top: 5%;
 }
+
 
 /* tooltips */
 
@@ -87,6 +97,7 @@
   opacity: 1;
 }
 
+
 /* button container */
 
 .button-container {
@@ -105,12 +116,14 @@
   border-radius: 20%;
 }
 
+
 /* game over */
 
 .game-over {
   background-color: red;
   opacity: 0.8;
 }
+
 
 /* buttons */
 
@@ -130,12 +143,15 @@
   background-color: yellow;
 }
 
-/* for button pressing */
+
+/* for pressing a button */
 
 .pressed {
   box-shadow: 0 0 20px white;
   background-color: grey;
 }
+
+
 
 /* szabaly.html */
 
@@ -157,35 +173,46 @@
   list-style-type: none;
 }
 
+
+/* media query for the mobile version */
+
 @media screen and (max-width: 600px) {
+  
+  /* h1 */
+
+  #level-title {
+    font-size: 6vw;
+  }
+
+  #rules {
+    font-size: 5vw;
+    hyphens: auto;
+  }
+
+  /* h2 */
+
+  .message {
+    font-size: 5vw;
+  }
+
+  /* index.html - buttons */
+
+  .btn-diff {
+    height: 8vh;
+    width: 50vw;
+    margin: 2vh;
+    border-radius: 0;
+    font-size: 4vw;
+  }
+
+  .btn-rules {
+    margin-top: 5vh;
+  }
+
   .btn {
     height: 15vh;
     width: 15vh;
     margin: 2vh;
   }
-
-  #level-title {
-    font-size: 1.5rem;
-  }
-
-  #rules {
-    font-size: 1.2rem;
-  }
-
-  .message {
-    font-size: 1rem;
-  }
-
-  .rule {
-    font-size: 0.9rem;
-  }
-
-  .btn-rules {
-    height: 50px;
-    width: 40%;
-    margin-top: 10vh;
-    border-radius: 0;
-  }
-
 
 }
