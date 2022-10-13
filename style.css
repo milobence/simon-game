@@ -119,7 +119,7 @@
 
 /* game over */
 
-.game-over {
+.error {
   background-color: red;
   opacity: 0.8;
 }
@@ -198,7 +198,7 @@
 
   .btn-diff {
     height: 8vh;
-    width: 50vw;
+    width: 40vw;
     margin: 2vh;
     border-radius: 0;
     font-size: 4vw;
