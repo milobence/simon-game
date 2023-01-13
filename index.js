@@ -4,6 +4,8 @@ var userClickedPattern ;
 var levels;
 var lives;
 var difficulty;
+var timeTrial;
+var points;
 var pressButton = true;
 
 // Easy difficulty
@@ -30,8 +32,26 @@ $("#random").on("click", function () {
     newGame("random", 1, 3);
 });
 
+// "Survivor" difficulty
+
 $("#survivor").on("click", function () {
     newGame("survivor", 1, 1);
+});
+
+// Time trial 1.
+
+$("#time-1").on("click", function () {
+    newGameTime("Time1", 180);
+});
+
+// Time trial 2.
+
+$("#time-2").on("click", function () {
+    newGameTime("Time2", 420);
+});
+
+$("#memory").on("click", function () {
+    newMemoryGame("Memory");
 });
 
 // Start a game
@@ -40,6 +60,7 @@ function newGame(diff, level, life) {
     difficulty = diff;
     levels = level;
     lives = life;
+    timeTrial = false;
     gamePattern = [];
     userClickedPattern = [];
     $(".diff-container").hide();
@@ -47,6 +68,39 @@ function newGame(diff, level, life) {
     $("#level-title").text("Level " + levels);
     $("h2").text("Megmaradt életek: " + lives);
     nextSequence();
+}
+
+function newGameTime(diff, startingTime) {
+    difficulty = diff;
+    levels = 1;
+    time = startingTime;
+    timeTrial = true;
+    gamePattern = [];
+    userClickedPattern = [];
+    $(".diff-container").hide();
+    $(".button-container").show();
+    $("#level-title").text("Level " + levels);
+    if (difficulty === "Time1") {
+        $("h2").text("Idő: 03:00");
+    } else {
+        $("h2").text("Idő: 07:00");
+    }
+    nextSequence();
+}
+
+function newMemoryGame(diff) {
+    difficulty = diff;
+    levels = 6;
+    lives = 5;
+    points = 0;
+    timeTrial = false;
+    gamePattern = [];
+    userClickedPattern = [];
+    $(".diff-container").hide();
+    $(".button-container").show();
+    $("#level-title").text("Pontszám " + points);
+    $("h2").text("Megmaradt életek: " + lives);
+    randomSequence();
 }
 
 
@@ -62,7 +116,7 @@ function nextSequence() {
     gamePattern.push(randomColor);
 
     // Show the sequence (on easy and on medium to lvl10)
-    if (difficulty === "easy" || difficulty === "survivor" || (difficulty === "medium" && levels <= 10)) {
+    if (difficulty === "easy" || difficulty === "survivor" || (difficulty === "medium" && levels <= 10) || difficulty === "Time1" || difficulty === "Time2") {
         showSequence(gamePattern);
     } else {
         $("#" + randomColor).fadeOut(100).fadeIn(100);
@@ -110,11 +164,18 @@ function notPressButton(length) {
     }, 500*length)
 }
 
+function notPressButtonWhenError() {
+    pressButton = false;
+    setTimeout(function () {
+        pressButton = true;
+    }, 1000)
+}
+
 
 // Animation and sound for the clicked button
 
 $(".btn").on("click", function () {
-    if (pressButton === true) {
+    if (pressButton) {
         var userChosenColor = $(this).attr("id"); // we can get the pressed button's id attribute with this
         playSound(userChosenColor);
         userClickedPattern.push(userChosenColor);
@@ -141,22 +202,64 @@ function animatePress(currentColor) {
     }, 100)
 }
 
+// Remaining time for time trials
 
-// Check, if your choose was good or wrong
+var timeUp = true;
+
+var showTime = setInterval(
+    function () {
+        if(time > 0) {
+            --time;
+            timeUp = false;
+        }
+        minutes = time / 60;
+        seconds = time % 60;
+        if (minutes < 10 && seconds < 10) {
+            $("h2").text("Idő: " + "0" + Math.floor(minutes) + ":0" + seconds);
+        } else if (minutes < 10 && seconds >= 10) {
+            $("h2").text("Idő: " + "0" + Math.floor(minutes) + ":" + seconds);
+        } else if (minutes >= 10 && seconds < 10) {
+            $("h2").text("Idő: " + Math.floor(minutes) + ":0" + seconds);
+        } else {
+            $("h2").text("Idő: " + Math.floor(minutes) + ":" + seconds);
+        }
+
+        if(time === 0 && timeUp === false) {
+            gameOver();
+            timeUp = true;
+        }
+
+        if(time === 0 && timeTrial === true) {
+            $(".message").text("A pontszámod: " + (levels-1));
+        }
+    }, 1000
+);
+
+// Check, if your choose is good or wrong
 
 function checkAnswer(currentLevel) {
     if (userClickedPattern[currentLevel] === gamePattern[currentLevel]){
         if(currentLevel === gamePattern.length-1) {
-            getLife();
-            newLevel();
-            if(difficulty !== "random") {
-                setTimeout(nextSequence, 1000);
-            } else {
+            if (difficulty === "Memory") {
+                points++;
+                $("#level-title").text("Pontszám " + points);
                 setTimeout(randomSequence, 1000);
+            } else {
+                if(difficulty === "Time1") {
+                    time = time + (levels*2);
+                } else {
+                    getLife();
+                }
+                newLevel();
+                if(difficulty !== "random") {
+                    setTimeout(nextSequence, 1000);
+                } else {
+                    setTimeout(randomSequence, 1000);
+                }
             }
         }
     } else {
-        if (lives > 1) {
+        if (difficulty === "Time1" || lives > 1) {
             error();
         } else {
             gameOver();
@@ -191,23 +294,31 @@ function getLife() {
 // If you choose a wrong button, you lose a life
 
 function error() {
-    lives--;
     userClickedPattern = [];
     wrongAnswer();
-    $("h2").text("Megmaradt életek: " + lives);
-    setTimeout(function () {
-        showSequence(gamePattern);
-    }, 1000);
+    if (difficulty === "Time1") {
+        notPressButtonWhenError();
+        setTimeout(function () {
+            showSequence(gamePattern);
+        }, 1000);
+    } else {
+        lives--;
+        $("h2").text("Megmaradt életek: " + lives);
+        notPressButtonWhenError();
+        setTimeout(function () {
+            showSequence(gamePattern);
+        }, 1000);
+    }
 }
 
 
-// The background turns red for 0.2 sec, if you choose a wrong answer
+// The background turns red for 0.2 sec, if the player chooses a wrong answer
 
 function wrongAnswer() {
     playSound("wrong");
-    $("body").addClass("game-over");
+    $("body").addClass("error");
     setTimeout(function () {
-        $("body").removeClass("game-over");
+        $("body").removeClass("error");
     }, 200);
 }
 
@@ -217,7 +328,11 @@ function wrongAnswer() {
 function gameOver() {
     wrongAnswer();
     $("#level-title").text("Játék vége! Szeretnél újra játszani?");
-    $(".message").text("A pontszámod: " + (levels-1));
+    if (difficulty === "Memory") {
+        $(".message").text("A pontszámod: " + (points));
+    } else {
+        $(".message").text("A pontszámod: " + (levels-1));
+    }
     $(".button-container").hide();
     $(".diff-container").show();
 }
