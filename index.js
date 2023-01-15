@@ -259,7 +259,7 @@ function checkAnswer(currentLevel) {
             }
         }
     } else {
-        if (difficulty === "Time1" || lives > 1) {
+        if (difficulty === "Time1" || difficulty === "Time2" || lives > 1) {
             error();
         } else {
             gameOver();
@@ -296,7 +296,7 @@ function getLife() {
 function error() {
     userClickedPattern = [];
     wrongAnswer();
-    if (difficulty === "Time1") {
+    if (difficulty === "Time1" || difficulty === "Time2") {
         notPressButtonWhenError();
         setTimeout(function () {
             showSequence(gamePattern);
