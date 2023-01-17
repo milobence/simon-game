@@ -100,7 +100,9 @@ function newMemoryGame(diff) {
     $(".button-container").show();
     $("#level-title").text("Pontszám " + points);
     $("h2").text("Megmaradt életek: " + lives);
-    randomSequence();
+    setTimeout(function () {
+        randomSequence();
+    }, 1500);
 }
 
 
